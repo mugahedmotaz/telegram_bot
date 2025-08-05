@@ -136,8 +136,10 @@ const MAX_CONCURRENT_DOWNLOADS = 3;
 class DownloadHandler {
     static async getVideoInfo(url) {
         return new Promise((resolve, reject) => {
-            // استخدام yt-dlp من النظام (مثبت في Docker)
-            const command = `yt-dlp --dump-json --flat-playlist "${url}"`;
+            // تحديد مسار yt-dlp حسب البيئة
+            const isWindows = process.platform === 'win32';
+            const ytdlpPath = isWindows ? path.join(__dirname, 'yt-dlp.exe') : 'yt-dlp';
+            const command = `"${ytdlpPath}" --dump-json --flat-playlist "${url}"`;
             
             exec(command, { 
                 maxBuffer: 1024 * 1024 * 5, // أقل للإنتاج
@@ -209,7 +211,11 @@ class DownloadHandler {
             args.push(url);
             
             Logger.info(`بدء التحميل: ${url}`);
-            const ytdlp = spawn('yt-dlp', args);
+            
+            // تحديد مسار yt-dlp حسب البيئة
+            const isWindows = process.platform === 'win32';
+            const ytdlpPath = isWindows ? path.join(__dirname, 'yt-dlp.exe') : 'yt-dlp';
+            const ytdlp = spawn(ytdlpPath, args);
             
             ytdlp.stdout.on('data', (data) => {
                 if (config.verboseLogging) {

@@ -6,12 +6,11 @@
 ```bash
 # تثبيت المكتبات
 npm install
-
-# تثبيت yt-dlp
-pip install yt-dlp
-# أو على Windows:
-winget install yt-dlp
 ```
+
+✅ **yt-dlp.exe موجود بالفعل في مجلد المشروع!**
+
+> لا تحتاج لتثبيت yt-dlp منفصلاً، فهو موجود كملف تنفيذي في المشروع
 
 ### 2. إعداد البوت
 
