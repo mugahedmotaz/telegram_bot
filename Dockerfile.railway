@@ -1,0 +1,64 @@
+# Dockerfile محسن خصيصاً لـ Railway
+FROM node:18-bullseye-slim
+
+# تثبيت المتطلبات الأساسية
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    python3-dev \
+    build-essential \
+    ffmpeg \
+    wget \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# إنشاء مستخدم غير root
+RUN useradd -m -u 1001 appuser
+
+# إنشاء virtual environment كـ root
+RUN python3 -m venv /opt/venv
+RUN /opt/venv/bin/pip install --upgrade pip
+RUN /opt/venv/bin/pip install --break-system-packages yt-dlp
+
+# إنشاء symlink لـ yt-dlp
+RUN ln -s /opt/venv/bin/yt-dlp /usr/local/bin/yt-dlp
+
+# تعيين المسار للـ virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
+
+# إنشاء مجلد العمل
+WORKDIR /app
+
+# تغيير ملكية المجلد
+RUN chown -R appuser:appuser /app
+RUN chown -R appuser:appuser /opt/venv
+
+# نسخ ملفات package
+COPY --chown=appuser:appuser package*.json ./
+
+# التبديل للمستخدم غير root
+USER appuser
+
+# تثبيت المكتبات
+RUN npm ci --only=production
+
+# نسخ باقي الملفات
+COPY --chown=appuser:appuser . .
+
+# إنشاء مجلدات مطلوبة
+RUN mkdir -p downloads logs
+
+# تعيين المنفذ
+EXPOSE 3000
+
+# متغيرات البيئة
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# فحص صحة yt-dlp
+RUN yt-dlp --version
+
+# تشغيل البوت
+CMD ["npm", "start"]
