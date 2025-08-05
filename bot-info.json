@@ -1,0 +1,44 @@
+{
+  "name": "YouTube Downloader Bot",
+  "version": "1.0.0",
+  "description": "بوت تلجرام لتحميل فيديوهات وقوائم تشغيل اليوتيوب",
+  "features": [
+    "تحميل فيديوهات مفردة",
+    "تحميل قوائم تشغيل كاملة",
+    "تحويل إلى صوت MP3",
+    "خيارات جودة متعددة",
+    "واجهة عربية كاملة",
+    "أزرار تفاعلية",
+    "حماية من الملفات الكبيرة"
+  ],
+  "commands": {
+    "/start": "بدء البوت وعرض الترحيب",
+    "/help": "عرض تعليمات الاستخدام",
+    "/quality": "معلومات عن خيارات الجودة"
+  },
+  "supportedFormats": {
+    "video": [
+      "MP4"
+    ],
+    "audio": [
+      "MP3"
+    ]
+  },
+  "qualityOptions": {
+    "video": [
+      "best",
+      "720p",
+      "480p",
+      "360p",
+      "worst"
+    ],
+    "audio": [
+      "best",
+      "worst"
+    ]
+  },
+  "limits": {
+    "maxFileSize": "50 MB",
+    "maxPlaylistSize": "10 videos"
+  }
+}

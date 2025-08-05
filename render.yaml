@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: youtube-telegram-bot
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node enhanced-bot.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: BOT_TOKEN
+        sync: false # سيتم تعيينه يدوياً في Render
+      - key: DOWNLOAD_DIR
+        value: ./downloads
+      - key: MAX_FILE_SIZE
+        value: 50
+      - key: MAX_PLAYLIST_SIZE
+        value: 5
+      - key: DOWNLOAD_TIMEOUT
+        value: 300
+      - key: VERBOSE_LOGGING
+        value: true
+      - key: AUTO_CLEANUP_MINUTES
+        value: 30
+    healthCheckPath: /health
+    disk:
+      name: youtube-bot-disk
+      mountPath: /app/downloads
+      sizeGB: 1

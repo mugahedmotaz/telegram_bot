@@ -1,0 +1,33 @@
+{
+  "name": "youtube-telegram-bot",
+  "version": "1.0.0",
+  "description": "بوت تلجرام لتحميل فيديوهات وقوائم تشغيل اليوتيوب",
+  "main": "production-bot.js",
+  "scripts": {
+    "start": "node production-bot.js",
+    "dev": "node enhanced-bot.js",
+    "local": "node bot.js"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "youtube",
+    "downloader",
+    "playlist"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.21.2",
+    "fs-extra": "^11.2.0",
+    "node-telegram-bot-api": "^0.64.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
